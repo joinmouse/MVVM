@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MVVM</title>
+</head>
+<body>
+  <form>
+    <p>姓名:<input type="text" name="name"></p>
+    <p>年龄:<input type="number" name="age"></p>
+    <p><input type="submit" value="提交"></p>
+  </form>
+  
+  
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    var frank = {
+      _data: {
+        age: 18,
+        name: 'frank'
+      }
+    }
+    Object.defineProperty(frank, 'age', {
+      get: function(){
+        console.log('frank.age　被读取了')
+        return frank._data.age
+      },
+      set: function(value){
+        console.log('frank.age 被设置了')
+        $('input[name="age"]').val(value)
+        frank._data.age = value
+        console.log(frank)
+      }
+    })
+    Object.defineProperty(frank, 'name', {
+      get: function(){
+        console.log('frank.name　被读取了')
+        return frank._data.name
+      },
+      set: function(value){
+        console.log('frank.name 被设置了')
+        $('input[name="name"]').val(value)
+        frank._data.name = value
+        console.log(frank)
+      }
+    })
+    
+    $('form').on('input', 'input[name]', function(e){
+      let $input = $(e.currentTarget)
+      let name = $input.attr('name')
+      let value = $input.val()
+      frank[name] = value
+    })
+
+    $('input[name="name"]').val(frank.name)
+    $('input[name="age"]').val(frank.age)
+    
+    $('form').on('submit', function(e){
+      e.preventDefault()
+      console.log(frank)
+    })
+
+    // setInterval(function(){
+    //   frank.age ++
+    // },1000)
+  </script>
+</body>
+</html>
